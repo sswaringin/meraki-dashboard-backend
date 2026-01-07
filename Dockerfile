@@ -22,6 +22,18 @@ COPY pyproject.toml ./
 # Install dependencies with uv
 RUN uv pip install --system .
 
+# -------------------------------------------
+# Runtime stage (slim)
+# -------------------------------------------
+FROM --platform=${PLATFORM_ARCH} python:${PYTHON_TAG}
+
+WORKDIR /app
+
+# Copy installed Python packages
+COPY --from=builder /usr/local/lib/python3.11/site-packages \
+                    /usr/local/lib/python3.11/site-packages
+COPY --from=builder /usr/local/bin /usr/local/bin
+
 # Copy application code
 COPY src ./src
 
