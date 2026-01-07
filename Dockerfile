@@ -23,6 +23,18 @@ COPY pyproject.toml ./
 RUN uv pip install --system .
 
 # -------------------------------------------
+# Dev stage
+# -------------------------------------------
+FROM builder AS dev
+
+# Copy source for initial image
+COPY src ./src
+
+EXPOSE 8000
+
+CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+
+# -------------------------------------------
 # Runtime stage (slim)
 # -------------------------------------------
 FROM --platform=${PLATFORM_ARCH} python:${PYTHON_TAG}
