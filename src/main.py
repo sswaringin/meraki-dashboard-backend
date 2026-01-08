@@ -1,7 +1,19 @@
+import os
 from fastapi import FastAPI
+from dotenv import load_dotenv
+load_dotenv()
 
 app = FastAPI(
-    title="Mock Meraki Dashboard API",
-    description="A mock Meraki API for showcasing device reporting tool",
-    version="0.1.0",
+    title="Meraki Reporting",
+    description="A custom backend showcasing device reporting with Meraki APIs",
+    version="0.1.1"
 )
+
+@app.get("/")
+async def root():
+    """Root endpoint"""
+    return {
+        "message": "Meraki Reporting",
+        "version": "0.1.1",
+        "docs": "/docs"
+    }
