@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from dotenv import load_dotenv
 from . import db
+from . import seed_data
 
 load_dotenv()
 
@@ -23,3 +24,8 @@ async def root():
         "version": "0.1.1",
         "docs": "/docs"
     }
+
+@app.get("/seed")
+async def root():
+    # Seed with 10 customers, ~15 devices each
+    seed_data.seed_database(num_customers=10, devices_per_customer=15)
